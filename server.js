@@ -5,7 +5,7 @@ const db = require("./models");
 const { Students, Password } = require("./models");
 app.use(express.static("client/build"));
 const cors = require("cors");
-var request = require("request");
+
 app.use(cors());
 app.use(express.json()); // Middleware to parse JSON bodies
 const session = require("express-session");
@@ -81,13 +81,11 @@ app.post("/login", async (req, res) => {
     console.log(user);
     if (user1) {
       // Successful login
-      res
-        .status(200)
-        .json({
-          message: "Login successful",
-          user: user,
-          userType: user1.userType,
-        });
+      res.status(200).json({
+        message: "Login successful",
+        user: user,
+        userType: user1.userType,
+      });
     } else {
       // Invalid credentials
       res.status(401).json({ message: "Invalid credentials" });
