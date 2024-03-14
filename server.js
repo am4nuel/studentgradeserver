@@ -26,7 +26,6 @@ function generateUniqueId() {
   const timestampPart = new Date().getTime().toString(36);
   return randomPart + timestampPart;
 }
-
 app.get("/ids", async (req, res) => {
   const data = await Password.findAll();
   res.send(data);
@@ -55,7 +54,10 @@ app.post("/", async (req, res) => {
     .then(async () => {
       const data = await Students.bulkCreate(req.body);
       const modifiedList = keepProperties(req.body, propertiesToKeep);
-      const data2 = await Password.bulkCreate(modifiedList);
+      const data1 = await Password.findAll();
+      if (!data1) {
+        const data2 = await Password.bulkCreate(modifiedList);
+      }
       res.send(data);
     })
     .catch((error) => {
@@ -88,8 +90,7 @@ app.post("/login", async (req, res) => {
         userType: user1.userType,
       });
     } else {
-      // Invalid credentials
-      res.status(401).json({ message: "Invalid credentials" });
+      res.send({ message: "Invalid credentials" });
     }
   } catch (error) {
     console.error("Error during login:", error);
