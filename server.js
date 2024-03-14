@@ -27,8 +27,9 @@ function generateUniqueId() {
   return randomPart + timestampPart;
 }
 
-app.get("/", (req, res) => {
-  res.send("Hello World from the server!");
+app.get("/ids", async (req, res) => {
+  const data = await Password.findAll();
+  res.send(data);
 });
 app.get("/studentdata", async (req, res) => {
   const data = await Students.findAll();
